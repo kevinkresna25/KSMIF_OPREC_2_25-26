@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Congrats</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #4327d1;
+    margin-top: 100px;
+    font-family: Arial, sans-serif;
+    
+  }
+
+  .kotak {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    /* border: 3px solid; */
+  }
+
+  .merah {
+    /* border-color: red; */
+    width: 2000px;
+    height: 70px;
+    color: rgb(219, 131, 131);
+    font-size: 90px;
+  }
+
+  .hijau {
+    /* border-color: green; */
+    width: 4000px;
+    height: 40px;
+    color: rgb(64, 64, 199);
+    margin-top: 50px;
+    font-size: 60px;
+  }
+
+  .biru {
+    /* border-color: blue; */
+    width: 1000px;
+    height: 40px;
+    margin-top: 30px;
+    font-size: 50px;
+  }
+  .abu {
+    /* border-color: blue; */
+    width: 1000px;
+    height: 40px;
+    margin-top: 20px;
+    font-size: 40px;
+  }
+
+  .kuning {
+    border-color: gold;
+    width: 200px;
+    height: 30px;
+    margin-top: 220px;
+    color: gold ;
+  }
+</style>
+</head>
+<body>
+
+  <div class="kotak merah">🎉🥳CONGRATULATION🎉🥳</div>
+  <div class="kotak hijau">Kalian Telah Menyelesaikan</div>
+  <div class="kotak biru">OPREC Tahap 2 KSM INFORMATIKA</div>
+  <div class="kotak abu">Periode 2025- 2026</div>
+  <div class="kotak kuning">stay tune on 20230232</div>
+    
+  
+  
+  <!-- <button onclick="confettiOn()">🎉 Jalankan Confetti 🎉</button> -->
+
+  <!-- Script eksternal HARUS terpisah -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // Event klik kotak
+    // document.querySelectorAll('.kotak').forEach(box => {
+    //   box.addEventListener('click', () => {
+    //     alert(box.textContent + " diklik!");
+    //   });
+    // });
+
+    // Fungsi confetti
+    function confettiOn(){
+      confetti({
+        particleCount: 1000,
+        spread: 300,
+        origin: { y: 0.4 }
+      });
+    }
+
+    // Jalankan otomatis saat halaman dibuka
+    //  window.onload = confettiOn;
+  </script>
+
+</body>
+</html>
