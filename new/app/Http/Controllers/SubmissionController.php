@@ -107,9 +107,9 @@ class SubmissionController extends Controller
         }
 
         // Update submission
+        // Note: content_hash will be automatically updated by TeamSubmissionObserver
         $submission->update([
             'content' => $validated['content'],
-            'content_hash' => hash('sha256', $validated['content']),
         ]);
 
         return redirect()
