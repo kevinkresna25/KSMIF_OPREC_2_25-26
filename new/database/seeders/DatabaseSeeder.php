@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'KSMIF Operator',
                 'email' => 'operator@ksmif.test',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('Password321'),
                 'is_operator' => true,
             ]
         );
