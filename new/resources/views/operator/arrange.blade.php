@@ -381,6 +381,7 @@
             const order = currentOrder();
 
             console.log('📋 Current order:', order.length + ' items');
+            console.log('🔍 First item preview:', order[0] ? order[0].substring(0, 100) : 'empty');
 
             if (!order.length) {
                 setStatus('Tidak ada potongan untuk dicek.', true);
@@ -392,7 +393,10 @@
                 checkBtn.disabled = true;
                 checkBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
+                const payload = { order };
+                console.log('📦 Payload yang akan dikirim:', JSON.stringify(payload).substring(0, 200));
                 console.log('🌐 Mengirim request ke server...');
+                
                 const res = await fetch('{{ route('operator.arrange.check') }}', {
                     method: 'POST',
                     headers: {
@@ -400,7 +404,7 @@
                         'X-CSRF-TOKEN': csrfToken,
                         'Accept': 'application/json',
                     },
-                    body: JSON.stringify({ order }),
+                    body: JSON.stringify(payload),
                 });
 
                 console.log('📡 Response status:', res.status);
