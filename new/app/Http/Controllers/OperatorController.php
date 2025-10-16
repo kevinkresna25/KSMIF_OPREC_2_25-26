@@ -119,6 +119,7 @@ class OperatorController extends Controller
         $result = $this->puzzleValidationService->validateOrder($order);
 
         // Always return 200 OK since we want to show the preview regardless
-        return response()->json($result);
+        // Use JSON_UNESCAPED_UNICODE to prevent HTML encoding
+        return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 }

@@ -33,7 +33,7 @@
                 @foreach ($confirmedSubmissions as $item)
                     <li class="p-4 rounded-none border-2 border-border-default bg-bg-card hover:bg-bg-main/30 cursor-move transition-all 
                                hover:border-text-glow hover:shadow-lg hover:shadow-text-glow/20 group" 
-                        data-content="{{ e($item->content) }}"
+                        data-content-base64="{{ base64_encode($item->content) }}"
                         data-team-id="{{ $item->team_id }}">
                         <div class="flex items-start gap-3">
                             {{-- Drag Handle --}}
@@ -132,7 +132,7 @@
             <div class="flex-1 overflow-hidden bg-bg-main">
                 {{-- Preview Tab --}}
                 <div id="contentPreview" class="h-full">
-                    <iframe id="previewIframe" class="w-full h-full border-0 bg-white" sandbox="allow-scripts"></iframe>
+                    <iframe id="previewIframe" class="w-full h-full border-0 bg-white"></iframe>
                 </div>
 
                 {{-- Code Tab --}}
@@ -157,13 +157,28 @@
             referrerpolicy="no-referrer"></script>
 
     <script>
+        // Main elements
         const listEl = document.getElementById('snippetList');
         const statusEl = document.getElementById('statusMsg');
         const checkBtn = document.getElementById('checkBtn');
 
+        // Modal elements
         const modal = document.getElementById('previewModal');
         const closeModal = document.getElementById('closeModal');
         const closeModal2 = document.getElementById('closeModal2');
+        const modalContainer = document.getElementById('modalContainer');
+        const modalHeader = document.getElementById('modalHeader');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+
+        // Tab elements
+        const tabPreview = document.getElementById('tabPreview');
+        const tabCode = document.getElementById('tabCode');
+        const contentPreview = document.getElementById('contentPreview');
+        const contentCode = document.getElementById('contentCode');
+        const previewIframe = document.getElementById('previewIframe');
+        const codeContent = document.getElementById('codeContent');
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -192,21 +207,18 @@
         // Get current order
         function currentOrder() {
             return Array.from(document.querySelectorAll('#snippetList > li'))
-                .map(li => li.getAttribute('data-content') || '');
+                .map(li => {
+                    const base64Content = li.getAttribute('data-content-base64') || '';
+                    if (!base64Content) return '';
+                    try {
+                        // Decode base64 to get original HTML
+                        return atob(base64Content);
+                    } catch (e) {
+                        console.error('Error decoding base64:', e);
+                        return '';
+                    }
+                });
         }
-
-        // Tab elements
-        const tabPreview = document.getElementById('tabPreview');
-        const tabCode = document.getElementById('tabCode');
-        const contentPreview = document.getElementById('contentPreview');
-        const contentCode = document.getElementById('contentCode');
-        const previewIframe = document.getElementById('previewIframe');
-        const codeContent = document.getElementById('codeContent');
-        const modalContainer = document.getElementById('modalContainer');
-        const modalHeader = document.getElementById('modalHeader');
-        const modalIcon = document.getElementById('modalIcon');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalMessage = document.getElementById('modalMessage');
 
         // Tab switching
         function switchTab(tab) {
@@ -232,56 +244,67 @@
 
         // Modal functions
         function openModal(data) {
-            const { success, message, html, html_raw } = data;
+            try {
+                const { success, message, html, html_raw } = data;
+                
+                if (!modal) {
+                    console.error('Modal element not found!');
+                    return;
+                }
 
-            // Set modal styling based on success
-            if (success) {
-                modalContainer.classList.remove('border-btn-danger');
-                modalContainer.classList.add('border-btn-success');
-                modalHeader.classList.remove('bg-btn-danger/20');
-                modalHeader.classList.add('bg-btn-success/20');
-                modalIcon.classList.remove('text-btn-danger');
-                modalIcon.classList.add('text-btn-success');
-                modalTitle.classList.remove('text-btn-danger');
-                modalTitle.classList.add('text-btn-success');
-                modalMessage.classList.remove('text-btn-danger');
-                modalMessage.classList.add('text-btn-success');
-            } else {
-                modalContainer.classList.remove('border-btn-success');
-                modalContainer.classList.add('border-btn-danger');
-                modalHeader.classList.remove('bg-btn-success/20');
-                modalHeader.classList.add('bg-btn-danger/20');
-                modalIcon.classList.remove('text-btn-success');
-                modalIcon.classList.add('text-btn-danger');
-                modalTitle.classList.remove('text-btn-success');
-                modalTitle.classList.add('text-btn-danger');
-                modalMessage.classList.remove('text-btn-success');
-                modalMessage.classList.add('text-btn-danger');
+                // Set modal styling based on success
+                if (success) {
+                    modalContainer.classList.remove('border-btn-danger');
+                    modalContainer.classList.add('border-btn-success');
+                    modalHeader.classList.remove('bg-btn-danger/20');
+                    modalHeader.classList.add('bg-btn-success/20');
+                    modalIcon.classList.remove('text-btn-danger');
+                    modalIcon.classList.add('text-btn-success');
+                    modalTitle.classList.remove('text-btn-danger');
+                    modalTitle.classList.add('text-btn-success');
+                    modalMessage.classList.remove('text-btn-danger');
+                    modalMessage.classList.add('text-btn-success');
+                } else {
+                    modalContainer.classList.remove('border-btn-success');
+                    modalContainer.classList.add('border-btn-danger');
+                    modalHeader.classList.remove('bg-btn-success/20');
+                    modalHeader.classList.add('bg-btn-danger/20');
+                    modalIcon.classList.remove('text-btn-success');
+                    modalIcon.classList.add('text-btn-danger');
+                    modalTitle.classList.remove('text-btn-success');
+                    modalTitle.classList.add('text-btn-danger');
+                    modalMessage.classList.remove('text-btn-success');
+                    modalMessage.classList.add('text-btn-danger');
+                }
+
+                // Set content
+                const titleText = message || (success ? 'Urutan Benar!' : 'Urutan Belum Sesuai');
+                const messageText = success ? '✓ Semua potongan tersusun dengan benar' : '⚠ Silakan susun ulang potongan';
+                
+                modalTitle.textContent = titleText;
+                modalMessage.textContent = messageText;
+
+                // Render HTML in iframe using srcdoc
+                if (html_raw) {
+                    previewIframe.setAttribute('srcdoc', html_raw);
+                }
+
+                // Show beautified code
+                if (html) {
+                    codeContent.textContent = html;
+                }
+
+                // Show modal
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                
+                // Default to preview tab
+                switchTab('preview');
+                
+            } catch (error) {
+                console.error('💥 Error in openModal:', error);
+                alert('Error saat membuka modal: ' + error.message);
             }
-
-            // Set content
-            modalTitle.textContent = message || (success ? 'Urutan Benar!' : 'Urutan Belum Sesuai');
-            modalMessage.textContent = success ? '✓ Semua potongan tersusun dengan benar' : '⚠ Silakan susun ulang potongan';
-
-            // Render HTML in iframe
-            if (html_raw) {
-                const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
-                iframeDoc.open();
-                iframeDoc.write(html_raw);
-                iframeDoc.close();
-            }
-
-            // Show beautified code
-            if (html) {
-                codeContent.textContent = html;
-            }
-
-            // Show modal
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            // Default to preview tab
-            switchTab('preview');
         }
 
         function hideModal() {
@@ -289,11 +312,8 @@
             modal.classList.remove('flex');
             
             // Clear iframe
-            const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
-            if (iframeDoc) {
-                iframeDoc.open();
-                iframeDoc.write('');
-                iframeDoc.close();
+            if (previewIframe) {
+                previewIframe.removeAttribute('srcdoc');
             }
             
             codeContent.textContent = '';
@@ -327,7 +347,7 @@
                 setStatus('Memeriksa urutan dan memproses HTML...');
                 checkBtn.disabled = true;
                 checkBtn.classList.add('opacity-50', 'cursor-not-allowed');
-
+                
                 const res = await fetch('{{ route('operator.arrange.check') }}', {
                     method: 'POST',
                     headers: {
@@ -347,10 +367,10 @@
 
                 // Always show the modal with preview
                 setStatus('');
-                setTimeout(() => openModal(data), 300);
+                openModal(data);
 
             } catch (err) {
-                console.error(err);
+                console.error('💥 Error:', err);
                 setStatus('Gagal menghubungi server.', true);
             } finally {
                 checkBtn.disabled = false;
