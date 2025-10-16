@@ -205,7 +205,7 @@
         @endif
 
         <!-- Main Content -->
-        <main class="flex-1">
+        <main class="flex-1 flex items-center justify-center">
             {{ $slot }}
         </main>
 

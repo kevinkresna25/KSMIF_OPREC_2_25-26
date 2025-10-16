@@ -2,10 +2,10 @@
     <x-slot name="title">KSMIF OPREC — Welcome</x-slot>
 
     <!-- HERO -->
-    <header class="relative bg-bg-main">
+    <header class="relative bg-bg-main w-full flex items-center justify-center">
         <!-- min-h untuk vertikal center; flex kolom + center -->
         <div
-            class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[75vh] flex flex-col items-center justify-center text-center">
+            class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 flex flex-col items-center justify-center text-center">
 
             <!-- Logo (dibesarkan) -->
             <div class="flex justify-center mb-8">
