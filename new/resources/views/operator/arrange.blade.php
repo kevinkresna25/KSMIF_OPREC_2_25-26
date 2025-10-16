@@ -33,7 +33,7 @@
                 @foreach ($confirmedSubmissions as $item)
                     <li class="p-4 rounded-none border-2 border-border-default bg-bg-card hover:bg-bg-main/30 cursor-move transition-all 
                                hover:border-text-glow hover:shadow-lg hover:shadow-text-glow/20 group" 
-                        data-content="{{ e($item->content) }}"
+                        data-content-base64="{{ base64_encode($item->content) }}"
                         data-team-id="{{ $item->team_id }}">
                         <div class="flex items-start gap-3">
                             {{-- Drag Handle --}}
@@ -132,7 +132,7 @@
             <div class="flex-1 overflow-hidden bg-bg-main">
                 {{-- Preview Tab --}}
                 <div id="contentPreview" class="h-full">
-                    <iframe id="previewIframe" class="w-full h-full border-0 bg-white" sandbox="allow-scripts"></iframe>
+                    <iframe id="previewIframe" class="w-full h-full border-0 bg-white"></iframe>
                 </div>
 
                 {{-- Code Tab --}}
@@ -214,7 +214,17 @@
         // Get current order
         function currentOrder() {
             return Array.from(document.querySelectorAll('#snippetList > li'))
-                .map(li => li.getAttribute('data-content') || '');
+                .map(li => {
+                    const base64Content = li.getAttribute('data-content-base64') || '';
+                    if (!base64Content) return '';
+                    try {
+                        // Decode base64 to get original HTML
+                        return atob(base64Content);
+                    } catch (e) {
+                        console.error('Error decoding base64:', e);
+                        return '';
+                    }
+                });
         }
 
         // Tab switching
@@ -299,15 +309,13 @@
                 modalTitle.textContent = titleText;
                 modalMessage.textContent = messageText;
 
-                // Render HTML in iframe
+                // Render HTML in iframe using srcdoc
                 if (html_raw) {
                     console.log('🖼️ Rendering HTML in iframe, length:', html_raw.length);
                     try {
-                        const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
-                        iframeDoc.open();
-                        iframeDoc.write(html_raw);
-                        iframeDoc.close();
-                        console.log('✅ Iframe rendered successfully');
+                        // Use srcdoc attribute instead of contentDocument (safer and works with sandbox)
+                        previewIframe.setAttribute('srcdoc', html_raw);
+                        console.log('✅ Iframe rendered successfully using srcdoc');
                     } catch (iframeError) {
                         console.error('❌ Error rendering iframe:', iframeError);
                     }
@@ -345,11 +353,8 @@
             modal.classList.remove('flex');
             
             // Clear iframe
-            const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
-            if (iframeDoc) {
-                iframeDoc.open();
-                iframeDoc.write('');
-                iframeDoc.close();
+            if (previewIframe) {
+                previewIframe.removeAttribute('srcdoc');
             }
             
             codeContent.textContent = '';
