@@ -4,10 +4,13 @@
             {{-- Header --}}
             <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h1 class="text-3xl md:text-4xl font-pixel text-text-glow pixel-glow uppercase">
-                        Dashboard
-                    </h1>
-                    <p class="text-gray-400 mt-2 font-lato">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="text-4xl">🏠</div>
+                        <h1 class="text-2xl md:text-3xl font-pixel text-text-glow pixel-glow uppercase">
+                            Dashboard
+                        </h1>
+                    </div>
+                    <p class="text-gray-400 font-lato">
                         Welcome, <span class="text-text-default font-semibold">{{ $team->name }}</span>!
                     </p>
                 </div>
@@ -93,7 +96,7 @@
             {{-- Recent Submissions --}}
             <x-card>
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-raleway font-semibold text-text-default">Recent Submissions</h2>
+                    <h2 class="text-xl font-pixel text-text-glow pixel-glow uppercase">Recent Submissions</h2>
                     <x-button variant="outlined" :href="route('team.submissions')" size="sm">
                         View All →
                     </x-button>
