@@ -2,16 +2,13 @@
     <div class="max-w-4xl mx-auto">
         {{-- Header --}}
         <div class="mb-6">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="text-4xl">🔒</div>
-                <div>
-                    <h1 class="text-2xl font-pixel text-text-glow pixel-glow uppercase">
-                        ENCRYPT TOOL
-                    </h1>
-                    <p class="text-gray-400 font-raleway text-sm">
-                        Buat encrypted fragments untuk tim
-                    </p>
-                </div>
+            <div class="mb-4">
+                <h1 class="text-2xl font-pixel text-text-glow pixel-glow uppercase mb-2">
+                    ENCRYPT TOOL
+                </h1>
+                <p class="text-gray-400 font-raleway text-sm">
+                    Buat encrypted fragments untuk tim
+                </p>
             </div>
         </div>
 
@@ -123,7 +120,7 @@
 
                 <div class="mt-4 p-4 bg-btn-info/20 border-2 border-btn-info rounded-none">
                     <p class="text-sm text-text-default font-raleway">
-                        <strong class="text-text-glow">⚠️ Penting:</strong> Simpan key yang digunakan dan berikan ke tim bersama encrypted text ini!
+                        <strong class="text-text-glow">Penting:</strong> Simpan key yang digunakan dan berikan ke tim bersama encrypted text ini!
                     </p>
                 </div>
             </x-card>
@@ -131,7 +128,7 @@
 
         {{-- Info Section --}}
         <x-card class="mt-6 bg-bg-card/50">
-            <h3 class="text-lg font-pixel text-text-accent-blue uppercase mb-4">ℹ️ INFORMASI</h3>
+            <h3 class="text-lg font-pixel text-text-accent-blue uppercase mb-4">INFORMASI</h3>
             <ul class="space-y-2 text-sm text-gray-300 font-lato">
                 <li class="flex items-start gap-2">
                     <span class="text-text-glow">▸</span>

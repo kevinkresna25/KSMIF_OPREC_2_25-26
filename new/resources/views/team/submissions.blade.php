@@ -4,12 +4,9 @@
             {{-- Header --}}
             <div class="flex items-center justify-between mb-8">
                 <div>
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="text-4xl">📋</div>
-                        <h1 class="text-2xl md:text-3xl font-pixel text-text-glow pixel-glow uppercase">
-                            My Submissions
-                        </h1>
-                    </div>
+                    <h1 class="text-2xl md:text-3xl font-pixel text-text-glow pixel-glow uppercase mb-2">
+                        My Submissions
+                    </h1>
                     <p class="text-gray-400 font-lato">
                         Kelola dan lihat semua submission kode Anda
                     </p>
