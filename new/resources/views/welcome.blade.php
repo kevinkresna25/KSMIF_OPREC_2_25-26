@@ -12,9 +12,27 @@
         </div>
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Logo KSMIF -->
+            <div class="flex justify-center mb-8 animate-pulse">
+                <div class="relative group">
+                    <!-- Glow effect background -->
+                    <div class="absolute inset-0 bg-text-glow/20 blur-2xl rounded-full scale-110 group-hover:scale-125 transition-transform duration-500"></div>
+                    
+                    <!-- Logo container -->
+                    <div class="relative bg-gradient-to-br from-bg-card to-bg-navbar p-4 rounded-2xl border-4 border-text-glow/40 shadow-2xl hover:border-text-glow/60 transition-all duration-300 group-hover:scale-105">
+                        <img 
+                            src="{{ asset('images/logo-ksmif.png') }}" 
+                            alt="Logo KSMIF" 
+                            class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain drop-shadow-2xl"
+                            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%231a0f30%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-family=%22monospace%22 font-size=%2260%22 fill=%22%2300f6ff%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EKSMIF%3C/text%3E%3C/svg%3E';"
+                        >
+                    </div>
+                </div>
+            </div>
+
             <!-- Main Title -->
             <div class="mb-4">
-                <h1 class="font-pixel text-4xl sm:text-5xl md:text-7xl text-text-glow pixel-glow mb-4 uppercase tracking-wider leading-tight animate-pulse">
+                <h1 class="font-pixel text-4xl sm:text-5xl md:text-7xl text-text-glow pixel-glow mb-4 uppercase tracking-wider leading-tight">
                     KSMIF
                 </h1>
                 <div class="flex items-center justify-center gap-3 mb-6">
