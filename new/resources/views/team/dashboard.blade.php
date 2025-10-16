@@ -112,9 +112,6 @@
                                             <x-badge variant="success">Confirmed</x-badge>
                                         @else
                                             <x-badge variant="warning">Pending</x-badge>
-                                            <x-button variant="outlined" size="sm" :href="route('submission.edit', $submission)">
-                                                Edit
-                                            </x-button>
                                         @endif
                                     </div>
                                 </div>
