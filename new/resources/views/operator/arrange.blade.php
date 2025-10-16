@@ -157,15 +157,37 @@
             referrerpolicy="no-referrer"></script>
 
     <script>
+        // Main elements
         const listEl = document.getElementById('snippetList');
         const statusEl = document.getElementById('statusMsg');
         const checkBtn = document.getElementById('checkBtn');
 
+        // Modal elements
         const modal = document.getElementById('previewModal');
         const closeModal = document.getElementById('closeModal');
         const closeModal2 = document.getElementById('closeModal2');
+        const modalContainer = document.getElementById('modalContainer');
+        const modalHeader = document.getElementById('modalHeader');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+
+        // Tab elements
+        const tabPreview = document.getElementById('tabPreview');
+        const tabCode = document.getElementById('tabCode');
+        const contentPreview = document.getElementById('contentPreview');
+        const contentCode = document.getElementById('contentCode');
+        const previewIframe = document.getElementById('previewIframe');
+        const codeContent = document.getElementById('codeContent');
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Debug: Log all elements on page load
+        console.log('🔧 Element initialization check:');
+        console.log('✓ listEl:', listEl);
+        console.log('✓ modal:', modal);
+        console.log('✓ modalContainer:', modalContainer);
+        console.log('✓ checkBtn:', checkBtn);
 
         function setStatus(msg, isError = false) {
             if (!statusEl) return;
@@ -195,19 +217,6 @@
                 .map(li => li.getAttribute('data-content') || '');
         }
 
-        // Tab elements
-        const tabPreview = document.getElementById('tabPreview');
-        const tabCode = document.getElementById('tabCode');
-        const contentPreview = document.getElementById('contentPreview');
-        const contentCode = document.getElementById('contentCode');
-        const previewIframe = document.getElementById('previewIframe');
-        const codeContent = document.getElementById('codeContent');
-        const modalContainer = document.getElementById('modalContainer');
-        const modalHeader = document.getElementById('modalHeader');
-        const modalIcon = document.getElementById('modalIcon');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalMessage = document.getElementById('modalMessage');
-
         // Tab switching
         function switchTab(tab) {
             if (tab === 'preview') {
@@ -232,56 +241,103 @@
 
         // Modal functions
         function openModal(data) {
-            const { success, message, html, html_raw } = data;
-
-            // Set modal styling based on success
-            if (success) {
-                modalContainer.classList.remove('border-btn-danger');
-                modalContainer.classList.add('border-btn-success');
-                modalHeader.classList.remove('bg-btn-danger/20');
-                modalHeader.classList.add('bg-btn-success/20');
-                modalIcon.classList.remove('text-btn-danger');
-                modalIcon.classList.add('text-btn-success');
-                modalTitle.classList.remove('text-btn-danger');
-                modalTitle.classList.add('text-btn-success');
-                modalMessage.classList.remove('text-btn-danger');
-                modalMessage.classList.add('text-btn-success');
-            } else {
-                modalContainer.classList.remove('border-btn-success');
-                modalContainer.classList.add('border-btn-danger');
-                modalHeader.classList.remove('bg-btn-success/20');
-                modalHeader.classList.add('bg-btn-danger/20');
-                modalIcon.classList.remove('text-btn-success');
-                modalIcon.classList.add('text-btn-danger');
-                modalTitle.classList.remove('text-btn-success');
-                modalTitle.classList.add('text-btn-danger');
-                modalMessage.classList.remove('text-btn-success');
-                modalMessage.classList.add('text-btn-danger');
-            }
-
-            // Set content
-            modalTitle.textContent = message || (success ? 'Urutan Benar!' : 'Urutan Belum Sesuai');
-            modalMessage.textContent = success ? '✓ Semua potongan tersusun dengan benar' : '⚠ Silakan susun ulang potongan';
-
-            // Render HTML in iframe
-            if (html_raw) {
-                const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
-                iframeDoc.open();
-                iframeDoc.write(html_raw);
-                iframeDoc.close();
-            }
-
-            // Show beautified code
-            if (html) {
-                codeContent.textContent = html;
-            }
-
-            // Show modal
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            console.log('🎭 openModal called with data:', data);
             
-            // Default to preview tab
-            switchTab('preview');
+            try {
+                const { success, message, html, html_raw } = data;
+                
+                console.log('🎨 Modal elements check:');
+                console.log('- modal:', modal ? '✓' : '✗');
+                console.log('- modalContainer:', modalContainer ? '✓' : '✗');
+                console.log('- modalHeader:', modalHeader ? '✓' : '✗');
+                console.log('- modalIcon:', modalIcon ? '✓' : '✗');
+                console.log('- modalTitle:', modalTitle ? '✓' : '✗');
+                console.log('- modalMessage:', modalMessage ? '✓' : '✗');
+                console.log('- previewIframe:', previewIframe ? '✓' : '✗');
+                console.log('- codeContent:', codeContent ? '✓' : '✗');
+
+                if (!modal) {
+                    console.error('❌ Modal element not found!');
+                    alert('Error: Modal element tidak ditemukan di halaman');
+                    return;
+                }
+
+                // Set modal styling based on success
+                if (success) {
+                    console.log('✅ Setting SUCCESS styling');
+                    modalContainer.classList.remove('border-btn-danger');
+                    modalContainer.classList.add('border-btn-success');
+                    modalHeader.classList.remove('bg-btn-danger/20');
+                    modalHeader.classList.add('bg-btn-success/20');
+                    modalIcon.classList.remove('text-btn-danger');
+                    modalIcon.classList.add('text-btn-success');
+                    modalTitle.classList.remove('text-btn-danger');
+                    modalTitle.classList.add('text-btn-success');
+                    modalMessage.classList.remove('text-btn-danger');
+                    modalMessage.classList.add('text-btn-success');
+                } else {
+                    console.log('❌ Setting ERROR styling');
+                    modalContainer.classList.remove('border-btn-success');
+                    modalContainer.classList.add('border-btn-danger');
+                    modalHeader.classList.remove('bg-btn-success/20');
+                    modalHeader.classList.add('bg-btn-danger/20');
+                    modalIcon.classList.remove('text-btn-success');
+                    modalIcon.classList.add('text-btn-danger');
+                    modalTitle.classList.remove('text-btn-success');
+                    modalTitle.classList.add('text-btn-danger');
+                    modalMessage.classList.remove('text-btn-success');
+                    modalMessage.classList.add('text-btn-danger');
+                }
+
+                // Set content
+                const titleText = message || (success ? 'Urutan Benar!' : 'Urutan Belum Sesuai');
+                const messageText = success ? '✓ Semua potongan tersusun dengan benar' : '⚠ Silakan susun ulang potongan';
+                
+                console.log('📝 Setting title:', titleText);
+                console.log('📝 Setting message:', messageText);
+                
+                modalTitle.textContent = titleText;
+                modalMessage.textContent = messageText;
+
+                // Render HTML in iframe
+                if (html_raw) {
+                    console.log('🖼️ Rendering HTML in iframe, length:', html_raw.length);
+                    try {
+                        const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
+                        iframeDoc.open();
+                        iframeDoc.write(html_raw);
+                        iframeDoc.close();
+                        console.log('✅ Iframe rendered successfully');
+                    } catch (iframeError) {
+                        console.error('❌ Error rendering iframe:', iframeError);
+                    }
+                } else {
+                    console.warn('⚠️ No html_raw in response');
+                }
+
+                // Show beautified code
+                if (html) {
+                    console.log('📄 Setting beautified code, length:', html.length);
+                    codeContent.textContent = html;
+                } else {
+                    console.warn('⚠️ No html in response');
+                }
+
+                // Show modal
+                console.log('👁️ Showing modal...');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                console.log('✅ Modal classes updated - hidden removed, flex added');
+                
+                // Default to preview tab
+                switchTab('preview');
+                console.log('✅ Switched to preview tab');
+                console.log('🎉 Modal should be visible now!');
+                
+            } catch (error) {
+                console.error('💥 Error in openModal:', error);
+                alert('Error saat membuka modal: ' + error.message);
+            }
         }
 
         function hideModal() {
@@ -315,8 +371,11 @@
 
         // Check order
         checkBtn && checkBtn.addEventListener('click', async () => {
+            console.log('🔍 Tombol check diklik');
             setStatus('');
             const order = currentOrder();
+
+            console.log('📋 Current order:', order.length + ' items');
 
             if (!order.length) {
                 setStatus('Tidak ada potongan untuk dicek.', true);
@@ -328,6 +387,7 @@
                 checkBtn.disabled = true;
                 checkBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
+                console.log('🌐 Mengirim request ke server...');
                 const res = await fetch('{{ route('operator.arrange.check') }}', {
                     method: 'POST',
                     headers: {
@@ -338,19 +398,23 @@
                     body: JSON.stringify({ order }),
                 });
 
+                console.log('📡 Response status:', res.status);
                 const data = await res.json();
+                console.log('📦 Response data:', data);
 
                 if (!res.ok) {
+                    console.error('❌ Response not OK');
                     setStatus(data?.message || 'Terjadi kesalahan saat memeriksa.', true);
                     return;
                 }
 
                 // Always show the modal with preview
+                console.log('✅ Akan menampilkan modal...');
                 setStatus('');
-                setTimeout(() => openModal(data), 300);
+                openModal(data);
 
             } catch (err) {
-                console.error(err);
+                console.error('💥 Error:', err);
                 setStatus('Gagal menghubungi server.', true);
             } finally {
                 checkBtn.disabled = false;
