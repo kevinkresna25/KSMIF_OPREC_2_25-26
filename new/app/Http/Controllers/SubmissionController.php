@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubmissionRequest;
-use App\Models\Team;
+use App\Models\TeamSubmission;
 use App\Services\SubmissionService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SubmissionController extends Controller
 {
@@ -16,7 +18,7 @@ class SubmissionController extends Controller
     /**
      * Display form input and all submissions.
      */
-    public function create(Request $request)
+    public function create(Request $request): View
     {
         $search = trim((string) $request->query('q', ''));
         $perPage = max(5, min((int) $request->query('per_page', 10), 50));
@@ -33,7 +35,7 @@ class SubmissionController extends Controller
     /**
      * Store a new submission with duplicate prevention.
      */
-    public function store(StoreSubmissionRequest $request)
+    public function store(StoreSubmissionRequest $request): RedirectResponse
     {
         $validated = $request->validated();
         $teamId = auth()->guard('team')->id();
@@ -55,5 +57,26 @@ class SubmissionController extends Controller
 
         return back()
             ->with('success', 'Potongan berhasil disimpan.');
+    }
+
+    /**
+     * Remove the specified submission from storage.
+     */
+    public function destroy(TeamSubmission $submission): RedirectResponse
+    {
+        $team = auth()->guard('team')->user();
+
+        // Authorization check
+        if ($submission->team_id !== $team->id) {
+            abort(403, 'Anda tidak memiliki akses untuk menghapus submission ini.');
+        }
+
+        if ($submission->is_confirmed) {
+            return back()->with('error', 'Submission yang sudah di-confirm tidak bisa dihapus.');
+        }
+
+        $submission->delete();
+
+        return back()->with('success', 'Submission berhasil dihapus.');
     }
 }

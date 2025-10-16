@@ -1,23 +1,31 @@
-# 🧩 Puzzle Game - RetroTerm Edition
+# 🎮 KSMIF - OPREC Game Besar
 
-Game puzzle interaktif berbasis web dengan **tema hacker retro 90-an** yang melibatkan dekripsi AES dan penyusunan potongan kode HTML. Dibangun dengan Laravel 12, menampilkan estetika terminal CRT lengkap dengan efek scanline dan glow.
+**Open Recruitment Game Besar KSMIF** - Platform challenge interaktif berbasis web dengan tema hacker retro 90-an yang melibatkan dekripsi AES dan penyusunan puzzle kode. Dibangun dengan Laravel 12, menampilkan estetika terminal CRT lengkap dengan efek scanline dan glow.
+
+## 🏆 Tentang KSMIF OPREC
+
+**Kelompok Studi Mahasiswa Informatika (KSMIF)** menghadirkan challenge Open Recruitment yang menguji kemampuan:
+- 🧠 **Problem Solving** - Memecahkan teka-teki kompleks
+- 🔐 **Kriptografi** - Mendekripsi pesan terenkripsi AES
+- 🎯 **Logical Thinking** - Menyusun fragmen kode dengan urutan tepat
+- ⚡ **Speed & Accuracy** - Berlomba dengan waktu untuk menyelesaikan challenge
 
 ## 🎮 RetroTerm Theme
 
-Aplikasi ini menggunakan **RetroTerm** - tema visual yang terinspirasi dari:
-- 🖥️ Terminal komputer tahun 90-an dengan efek CRT
-- 💚 Warna hijau fosfor (#00ff41) khas layar monokrom
-- 🎯 Estetika hacker dari film cyberpunk
+Platform ini menggunakan **RetroTerm** - tema visual yang terinspirasi dari:
+- 🖥️ Terminal komputer tahun 90-an dengan efek CRT authentic
+- 💙 Warna cyan glow (#00f6ff) khas monitor retro
+- 🎯 Estetika hacker dari era cyberpunk
 - ✨ Font pixel ("Press Start 2P") untuk nuansa retro gaming
-- 📟 Scanline effect dan screen flicker untuk authenticity
+- 📟 Scanline effect dan screen flicker untuk pengalaman immersive
 
-## 🎯 Konsep Game
+## 🎯 Mekanisme Challenge
 
-1. **Dekripsi AES** - Tim mendekripsi ciphertext menggunakan key rahasia
-2. **Submit Potongan** - Hasil dekripsi disubmit ke sistem
-3. **Konfirmasi Operator** - Operator memvalidasi potongan yang benar
-4. **Penyusunan Puzzle** - Drag & drop potongan ke urutan yang tepat
-5. **Validasi & Hasil** - Sistem memvalidasi dan menampilkan hasil akhir
+1. **Dekripsi AES** - Tim mendekripsi ciphertext menggunakan key rahasia yang diberikan
+2. **Submit Fragmen** - Hasil dekripsi disubmit ke sistem untuk diverifikasi
+3. **Verifikasi Panitia** - Panitia memvalidasi dan memilih submission terbaik per tim
+4. **Penyusunan Puzzle** - Drag & drop fragmen ke urutan yang tepat menggunakan interface interaktif
+5. **Validasi Akhir** - Sistem memvalidasi urutan dan menampilkan hasil final
 
 ## 🚀 Tech Stack
 
@@ -77,8 +85,8 @@ composer dev
 
 Setelah seeding:
 
-- **Operator:**
-  - Email: `operator@puzzle.test`
+- **Operator KSMIF:**
+  - Email: `operator@ksmif.test`
   - Password: `password`
 
 - **Test User:**
@@ -193,7 +201,7 @@ Edit `config/puzzle.php` untuk customize:
 ],
 
 'operators' => [
-    'default_email' => 'operator@puzzle.test',
+    'default_email' => 'operator@ksmif.test',
 ],
 ```
 
@@ -274,7 +282,11 @@ php artisan route:list
 
 ## 🤝 Contributing
 
-Project ini dibuat untuk KSMIF (Kelompok Studi Mahasiswa IF). Contributions are welcome!
+Project ini dibuat untuk **KSMIF (Kelompok Studi Mahasiswa Informatika)** sebagai platform Open Recruitment Game Besar. Contributions are welcome!
+
+## 👥 Tim Developer
+
+Dikembangkan dengan dedikasi oleh tim KSMIF untuk menciptakan pengalaman Open Recruitment yang memorable dan menantang.
 
 ## 📄 License
 
@@ -282,4 +294,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ---
 
-**Built with ❤️ for KSMIF**
+**Built with ❤️ by KSMIF - Kelompok Studi Mahasiswa Informatika**
+
+*"Challenge Yourself, Prove Your Worth"*

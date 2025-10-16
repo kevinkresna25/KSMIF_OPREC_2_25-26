@@ -1,17 +1,37 @@
-<x-layouts.retro :show-nav="true" :show-footer="true">
-    <x-slot name="title">Decrypt Tool - Puzzle Game</x-slot>
+<x-layouts.retro :show-nav="false" :show-footer="false">
+    <x-slot name="title">Decrypt Tool - KSMIF OPREC</x-slot>
     
     <div class="min-h-screen py-12 px-4">
         <div class="max-w-4xl mx-auto">
             {{-- Header --}}
-            <div class="text-center mb-8">
-                <div class="inline-block text-6xl mb-4">🔓</div>
-                <h1 class="text-3xl font-pixel text-text-glow pixel-glow uppercase mb-4">
-                    DECRYPT TOOL
-                </h1>
-                <p class="text-gray-300 font-raleway">
-                    Decrypt encrypted fragments menggunakan AES-256-CBC
-                </p>
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <h1 class="text-2xl md:text-3xl font-pixel text-text-glow pixel-glow uppercase">
+                            Decrypt Tool
+                        </h1>
+                    </div>
+                    <p class="text-gray-400 font-lato">
+                        Decrypt encrypted fragments menggunakan AES-256-CBC
+                    </p>
+                </div>
+                <div class="flex gap-2">
+                    <x-button variant="outlined" :href="route('team.dashboard')">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        Dashboard
+                    </x-button>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <x-button type="submit" variant="danger">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            Logout
+                        </x-button>
+                    </form>
+                </div>
             </div>
 
             {{-- Alerts --}}
@@ -30,7 +50,7 @@
             {{-- Decrypt Form --}}
             <x-card class="mb-6">
                 <h2 class="text-xl font-pixel text-text-glow pixel-glow uppercase mb-6">
-                    INPUT
+                    Decrypt Fragment
                 </h2>
                 
                 <form method="POST" action="{{ route('decrypt.process') }}" class="space-y-6">
@@ -43,7 +63,7 @@
                         </label>
                         <textarea 
                             name="encrypted" 
-                            rows="6"
+                            rows="8"
                             class="block w-full bg-transparent border-b-2 border-border-default text-text-default placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-input-focus rounded-none font-mono text-sm"
                             placeholder="Paste encrypted text di sini..."
                             required>{{ old('encrypted') }}</textarea>
@@ -109,20 +129,20 @@
                         <pre id="decrypted-result" class="text-text-default font-mono text-sm whitespace-pre-wrap break-words">{{ session('decrypted') }}</pre>
                     </div>
 
-                    <div class="mt-4 flex gap-3">
-                        <a href="{{ route('submission.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-btn-success text-white rounded-none hover:brightness-110 transition font-raleway text-sm uppercase tracking-wider">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="mt-4">
+                        <x-button variant="submit" :href="route('submission.create')">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             Submit Hasil Ini
-                        </a>
+                        </x-button>
                     </div>
                 </x-card>
             @endif
 
             {{-- Info Section --}}
             <x-card class="mt-6 bg-bg-card/50">
-                <h3 class="text-lg font-pixel text-text-accent-blue uppercase mb-4">ℹ️ INFORMASI</h3>
+                <h3 class="text-lg font-pixel text-text-accent-blue uppercase mb-4">INFORMASI</h3>
                 <ul class="space-y-2 text-sm text-gray-300 font-lato">
                     <li class="flex items-start gap-2">
                         <span class="text-text-glow">▸</span>

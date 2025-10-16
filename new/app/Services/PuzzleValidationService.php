@@ -7,6 +7,59 @@ use App\Models\Snippet;
 class PuzzleValidationService
 {
     /**
+     * Beautify HTML content with proper indentation.
+     */
+    private function beautifyHtml(string $html): string
+    {
+        // Remove extra whitespace and newlines
+        $html = preg_replace('/\s+/', ' ', $html);
+        $html = trim($html);
+
+        // Tags that should have newlines
+        $blockTags = [
+            'html', 'head', 'body', 'div', 'section', 'article', 'header', 'footer',
+            'nav', 'main', 'aside', 'form', 'table', 'thead', 'tbody', 'tr',
+            'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'script', 'style', 'title'
+        ];
+
+        // Add newlines around block tags
+        foreach ($blockTags as $tag) {
+            $html = preg_replace('/<' . $tag . '([^>]*)>/i', "\n<{$tag}$1>", $html);
+            $html = preg_replace('/<\/' . $tag . '>/i', "</{$tag}>\n", $html);
+        }
+
+        // Split by newlines for indentation
+        $lines = explode("\n", $html);
+        $formatted = [];
+        $indent = 0;
+        $indentString = '  '; // 2 spaces
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line)) continue;
+
+            // Decrease indent for closing tags
+            if (preg_match('/^<\//', $line)) {
+                $indent = max(0, $indent - 1);
+            }
+
+            // Add indented line
+            $formatted[] = str_repeat($indentString, $indent) . $line;
+
+            // Increase indent for opening tags (but not self-closing)
+            if (preg_match('/^<[^!\/][^>]*[^\/]>/', $line)) {
+                $indent++;
+            }
+
+            // Special case: check for closing tag on same line
+            if (preg_match('/<[^>]+>.*<\/[^>]+>/', $line)) {
+                $indent = max(0, $indent - 1);
+            }
+        }
+
+        return implode("\n", $formatted);
+    }
+    /**
      * Normalize content for comparison.
      */
     private function normalizeContent(string $content): string
@@ -26,6 +79,7 @@ class PuzzleValidationService
             return [
                 'success' => false,
                 'message' => 'Payload urutan tidak valid.',
+                'html' => '',
             ];
         }
 
@@ -41,16 +95,24 @@ class PuzzleValidationService
         // Validate
         $isValid = $this->compareOrders($normalizedOrder, $correctOrder);
 
+        // Combine current order HTML (beautified)
+        $combinedHtml = implode('', $order);
+        $beautifiedHtml = $this->beautifyHtml($combinedHtml);
+
         if ($isValid) {
             return [
                 'success' => true,
-                'html' => $this->getCombinedHtml(),
+                'message' => '🎉 Selamat! Urutan sudah benar dan sesuai!',
+                'html' => $beautifiedHtml,
+                'html_raw' => $combinedHtml,
             ];
         }
 
         return [
             'success' => false,
-            'message' => 'Urutan masih salah. Coba periksa kembali.',
+            'message' => '❌ Susunan belum sesuai. Silakan coba lagi.',
+            'html' => $beautifiedHtml,
+            'html_raw' => $combinedHtml,
         ];
     }
 

@@ -1,11 +1,10 @@
 <x-layouts.retro :showNav="false" :showFooter="false">
-    <x-slot name="title">Login - Puzzle Game</x-slot>
+    <x-slot name="title">Login - KSMIF OPREC</x-slot>
     
     <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <!-- Logo/Header -->
             <div class="text-center">
-                <div class="inline-block text-5xl mb-4 animate-pulse">🧩</div>
                 <h2 class="font-pixel text-2xl text-text-glow pixel-glow mb-4 uppercase">
                     LOGIN
                 </h2>

@@ -2,7 +2,7 @@
         <x-card>
             <div class="mb-6">
                 <h2 class="text-2xl font-pixel text-text-glow pixel-glow uppercase">Tambah Snippet</h2>
-                <p class="text-text-default mt-2 font-lato">Tambahkan potongan kode/HTML baru untuk puzzle.</p>
+                <p class="text-text-default mt-2 font-lato">Tambahkan fragmen kode/HTML baru untuk challenge OPREC.</p>
             </div>
 
             @if ($errors->any())
@@ -35,7 +35,7 @@
                     @error('correct_order')
                         <p class="mt-2 text-sm text-btn-danger font-lato">{{ $message }}</p>
                     @enderror
-                    <p class="mt-2 text-xs text-gray-400 font-lato">Urutan snippet dalam puzzle (harus unik).</p>
+                    <p class="mt-2 text-xs text-gray-400 font-lato">Urutan fragmen dalam challenge (harus unik).</p>
                 </div>
 
                 <div>

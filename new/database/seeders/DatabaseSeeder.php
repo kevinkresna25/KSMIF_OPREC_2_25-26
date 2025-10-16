@@ -13,12 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create operator user
+        // Create operator user for KSMIF OPREC
         User::firstOrCreate(
-            ['email' => 'operator@puzzle.test'],
+            ['email' => 'operator@ksmif.test'],
             [
-                'name' => 'Operator',
-                'email' => 'operator@puzzle.test',
+                'name' => 'KSMIF Operator',
+                'email' => 'operator@ksmif.test',
                 'password' => Hash::make('password'),
                 'is_operator' => true,
             ]

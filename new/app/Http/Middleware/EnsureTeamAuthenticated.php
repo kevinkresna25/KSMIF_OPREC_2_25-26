@@ -16,9 +16,17 @@ class EnsureTeamAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->guard('team')->check()) {
-            return redirect()->route('login')->with('status', 'Silakan login sebagai team terlebih dahulu.');
+            return redirect()->route('login')
+                ->with('status', 'Silakan login sebagai team terlebih dahulu.');
         }
 
-        return $next($request);
+        $response = $next($request);
+
+        // Prevent browser caching for authenticated pages
+        $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
+
+        return $response;
     }
 }

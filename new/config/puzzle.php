@@ -3,10 +3,10 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Puzzle Game Configuration
+    | KSMIF OPREC Configuration
     |--------------------------------------------------------------------------
     |
-    | Configuration values for the puzzle game application.
+    | Configuration values for KSMIF Open Recruitment Game Besar application.
     |
     */
 
@@ -25,7 +25,7 @@ return [
     ],
 
     'operators' => [
-        'default_email' => env('DEFAULT_OPERATOR_EMAIL', 'operator@puzzle.test'),
+        'default_email' => env('DEFAULT_OPERATOR_EMAIL', 'operator@ksmif.test'),
         'default_password' => env('DEFAULT_OPERATOR_PASSWORD', 'password'),
     ],
 ];

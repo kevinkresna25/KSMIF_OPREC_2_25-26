@@ -10,15 +10,22 @@ class SubmissionService
 {
     /**
      * Check if content already exists globally.
+     * 
+     * @param string $content The content to check
+     * @param int|null $excludeId Submission ID to exclude from check (for updates)
      */
-    public function isDuplicate(string $content): ?TeamSubmission
+    public function isDuplicate(string $content, ?int $excludeId = null): ?TeamSubmission
     {
         $normalized = TeamSubmission::normalizeContent($content);
         $hash = hash('sha256', $normalized);
 
-        return TeamSubmission::with('team')
-            ->where('content_hash', $hash)
-            ->first();
+        $query = TeamSubmission::with('team')->where('content_hash', $hash);
+
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->first();
     }
 
     /**
