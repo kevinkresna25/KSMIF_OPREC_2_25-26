@@ -16,62 +16,62 @@ class TeamSeeder extends Seeder
             [
                 'name' => 'Team Quantum',
                 'username' => 'quantum',
-                'password' => bcrypt('1234'),
+                'password' => bcrypt('4qe4N12'),
             ],
             [
                 'name' => 'Team Matrix',
                 'username' => 'matrix',
-                'password' => bcrypt('abcd'),
+                'password' => bcrypt('4n5jErS'),
             ],
             [
                 'name' => 'Team Cipher',
                 'username' => 'cipher',
-                'password' => bcrypt('admin123'),
+                'password' => bcrypt('3J25FFu'),
             ],
             [
                 'name' => 'Team Pixel',
                 'username' => 'pixel',
-                'password' => bcrypt('password01'),
+                'password' => bcrypt('4ofdwOS'),
             ],
             [
                 'name' => 'Team Nova',
                 'username' => 'nova',
-                'password' => bcrypt('12345'),
+                'password' => bcrypt('3KSad1O'),
             ],
             [
                 'name' => 'Team CodeX',
                 'username' => 'codex',
-                'password' => bcrypt('qwerty'),
+                'password' => bcrypt('4hbCaO9'),
             ],
             [
                 'name' => 'Team Byte',
                 'username' => 'byte',
-                'password' => bcrypt('root123'),
+                'password' => bcrypt('4952Vl2'),
             ],
             [
                 'name' => 'Team Nexus',
                 'username' => 'nexus',
-                'password' => bcrypt('letmein'),
+                'password' => bcrypt('4hdPm53'),
             ],
             [
                 'name' => 'Team Circuit',
                 'username' => 'circuit',
-                'password' => bcrypt('123qwe'),
+                'password' => bcrypt('3JegIv9'),
             ],
             [
                 'name' => 'Team Hexa',
                 'username' => 'hexa',
-                'password' => bcrypt('123abc'),
+                'password' => bcrypt('4nbf9vY'),
             ],
             [
                 'name' => 'Team ByteWave',
                 'username' => 'bytewave',
-                'password' => bcrypt('password123'),
+                'password' => bcrypt('46WUdEk'),
             ],
             [
                 'name' => 'Team AlphaTech',
                 'username' => 'alphatech',
-                'password' => bcrypt('tech2025'),
+                'password' => bcrypt('4hdPAsV'),
             ],
         ];
 
