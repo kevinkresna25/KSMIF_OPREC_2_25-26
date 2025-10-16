@@ -6,6 +6,7 @@ use App\Models\TeamSubmission;
 use App\Observers\TeamSubmissionObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,5 +40,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->isOperator() ? true : null;
         });
+
+        // Force HTTPS in production when behind a proxy
+        if ($this->app->isProduction()) {
+            URL::forceScheme('https');
+        }
     }
 }

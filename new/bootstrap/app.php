@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'operator' => \App\Http\Middleware\EnsureOperator::class,
             'team' => \App\Http\Middleware\EnsureTeamAuthenticated::class,
         ]);
+        
+        // Trust all proxies for HTTPS detection
+        $middleware->trustProxies(at: '*', headers: \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
