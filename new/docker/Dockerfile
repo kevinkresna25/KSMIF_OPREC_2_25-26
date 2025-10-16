@@ -99,6 +99,9 @@ COPY --from=composer-builder --chown=${PUID}:${PGID} /app /var/www/html
 # Copy build assets dari builder
 COPY --from=assets --chown=${PUID}:${PGID} /app/public/build /var/www/html/public/build
 
+# Copy manifest file jika ada
+COPY --from=assets --chown=${PUID}:${PGID} /app/public/.vite /var/www/html/public/.vite || true
+
 # Create storage link
 RUN php artisan storage:link
 
@@ -120,5 +123,6 @@ FROM nginx:1.25-alpine AS nginx
 # Copy public directory dan build assets
 COPY --from=composer-builder /app/public /var/www/html/public
 COPY --from=assets /app/public/build /var/www/html/public/build
+COPY --from=assets /app/public/.vite /var/www/html/public/.vite || true
 
 EXPOSE 80
