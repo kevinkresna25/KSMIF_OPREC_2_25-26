@@ -103,23 +103,44 @@
     </x-card>
 
     {{-- Modal Preview HTML --}}
-    <div id="previewModal" class="fixed inset-0 hidden items-center justify-center bg-black/70 z-50 backdrop-blur-sm">
-        <div class="bg-bg-card rounded-none shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col border-2 border-btn-success">
-            <div class="flex items-center justify-between px-5 py-3 border-b border-border-default bg-btn-success/20">
-                <div class="flex items-center gap-2">
-                    <svg class="w-6 h-6 text-btn-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div id="previewModal" class="fixed inset-0 hidden items-center justify-center bg-black/80 z-50 backdrop-blur-sm p-4">
+        <div class="bg-bg-card rounded-none shadow-xl w-full mx-4 max-h-[95vh] overflow-hidden flex flex-col border-2" style="max-width: 90vw;" id="modalContainer">
+            {{-- Header with dynamic status --}}
+            <div class="flex items-center justify-between px-5 py-3 border-b border-border-default" id="modalHeader">
+                <div class="flex items-center gap-3">
+                    <svg class="w-6 h-6" id="modalIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <h3 class="font-pixel text-btn-success uppercase text-sm">Selamat! Urutan Benar!</h3>
+                    <h3 class="font-pixel uppercase text-sm" id="modalTitle">Preview HTML</h3>
                 </div>
                 <button id="closeModal" class="text-text-default hover:text-btn-danger text-2xl leading-none transition">
                     &times;
                 </button>
             </div>
-            <div class="p-5 overflow-y-auto flex-1 bg-bg-main">
-                <div id="previewContent" class="prose max-w-none text-text-default"></div>
+            
+            {{-- Tabs --}}
+            <div class="flex border-b border-border-default bg-bg-navbar">
+                <button id="tabPreview" class="tab-btn px-6 py-3 font-raleway font-semibold text-sm uppercase transition-colors border-b-2 border-btn-info text-btn-info">
+                    Preview
+                </button>
+                <button id="tabSource" class="tab-btn px-6 py-3 font-raleway font-semibold text-sm uppercase transition-colors border-b-2 border-transparent text-gray-400 hover:text-text-default">
+                    Source Code
+                </button>
             </div>
-            <div class="flex justify-end gap-2 px-5 py-3 border-t border-border-default bg-bg-navbar">
+
+            {{-- Tab Content: Preview --}}
+            <div id="contentPreview" class="flex-1 overflow-hidden bg-white">
+                <iframe id="previewFrame" class="w-full h-full border-0" sandbox="allow-scripts"></iframe>
+            </div>
+
+            {{-- Tab Content: Source Code --}}
+            <div id="contentSource" class="hidden flex-1 overflow-y-auto bg-bg-main p-5">
+                <pre class="text-xs text-text-default font-mono whitespace-pre-wrap" id="sourceCode"></pre>
+            </div>
+
+            {{-- Footer --}}
+            <div class="flex justify-between items-center gap-2 px-5 py-3 border-t border-border-default bg-bg-navbar">
+                <div id="statusMessage" class="text-sm font-raleway"></div>
                 <x-button id="closeModal2" variant="outlined">
                     Tutup
                 </x-button>
@@ -134,6 +155,8 @@
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js" 
             referrerpolicy="no-referrer"></script>
+    {{-- JS Beautify for HTML formatting --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.11/beautify-html.min.js"></script>
 
     <script>
         const listEl = document.getElementById('snippetList');
@@ -141,9 +164,21 @@
         const checkBtn = document.getElementById('checkBtn');
 
         const modal = document.getElementById('previewModal');
-        const closeModal = document.getElementById('closeModal');
-        const closeModal2 = document.getElementById('closeModal2');
-        const previewContent = document.getElementById('previewContent');
+        const modalContainer = document.getElementById('modalContainer');
+        const modalHeader = document.getElementById('modalHeader');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalIcon = document.getElementById('modalIcon');
+        const statusMessage = document.getElementById('statusMessage');
+        const closeModalBtn = document.getElementById('closeModal');
+        const closeModal2Btn = document.getElementById('closeModal2');
+        
+        const previewFrame = document.getElementById('previewFrame');
+        const sourceCode = document.getElementById('sourceCode');
+        
+        const tabPreview = document.getElementById('tabPreview');
+        const tabSource = document.getElementById('tabSource');
+        const contentPreview = document.getElementById('contentPreview');
+        const contentSource = document.getElementById('contentSource');
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -175,10 +210,78 @@
                 .map(li => li.getAttribute('data-content') || '');
         }
 
+        // Beautify HTML
+        function beautifyHtml(html) {
+            try {
+                return html_beautify(html, {
+                    indent_size: 2,
+                    indent_char: ' ',
+                    max_preserve_newlines: 1,
+                    preserve_newlines: true,
+                    keep_array_indentation: false,
+                    break_chained_methods: false,
+                    indent_scripts: 'normal',
+                    brace_style: 'collapse',
+                    space_before_conditional: true,
+                    unescape_strings: false,
+                    jslint_happy: false,
+                    end_with_newline: false,
+                    wrap_line_length: 0,
+                    indent_inner_html: true,
+                    comma_first: false,
+                    e4x: false,
+                    indent_empty_lines: false
+                });
+            } catch (e) {
+                console.error('Beautify error:', e);
+                return html;
+            }
+        }
+
         // Modal functions
-        function openModal(html) {
-            const safe = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
-            previewContent.innerHTML = safe;
+        function openModal(html, isSuccess, message) {
+            // Beautify HTML
+            const beautifiedHtml = beautifyHtml(html);
+            
+            // Update modal styling based on success
+            if (isSuccess) {
+                modalContainer.className = 'bg-bg-card rounded-none shadow-xl w-full mx-4 max-h-[95vh] overflow-hidden flex flex-col border-2 border-btn-success';
+                modalHeader.className = 'flex items-center justify-between px-5 py-3 border-b border-border-default bg-btn-success/20';
+                modalIcon.className = 'w-6 h-6 text-btn-success';
+                modalTitle.className = 'font-pixel uppercase text-sm text-btn-success';
+                modalTitle.textContent = 'Selamat! Urutan Benar!';
+                statusMessage.className = 'text-sm font-raleway text-btn-success font-semibold';
+            } else {
+                modalContainer.className = 'bg-bg-card rounded-none shadow-xl w-full mx-4 max-h-[95vh] overflow-hidden flex flex-col border-2 border-btn-danger';
+                modalHeader.className = 'flex items-center justify-between px-5 py-3 border-b border-border-default bg-btn-danger/20';
+                modalIcon.className = 'w-6 h-6 text-btn-danger';
+                modalTitle.className = 'font-pixel uppercase text-sm text-btn-danger';
+                modalTitle.textContent = 'Urutan Belum Sesuai';
+                statusMessage.className = 'text-sm font-raleway text-btn-danger font-semibold';
+            }
+            
+            statusMessage.textContent = message;
+            
+            // Update icon
+            if (isSuccess) {
+                modalIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+            } else {
+                modalIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+            }
+            
+            // Render in iframe
+            const iframeDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(beautifiedHtml);
+            iframeDoc.close();
+            
+            // Show source code
+            sourceCode.textContent = beautifiedHtml;
+            
+            // Show preview tab by default
+            showPreviewTab();
+            
+            // Show modal
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
@@ -186,10 +289,35 @@
         function hideModal() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
-            previewContent.innerHTML = '';
+            
+            // Clear iframe
+            const iframeDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write('');
+            iframeDoc.close();
+            
+            sourceCode.textContent = '';
         }
 
-        [closeModal, closeModal2].forEach(btn => btn && btn.addEventListener('click', hideModal));
+        function showPreviewTab() {
+            contentPreview.classList.remove('hidden');
+            contentSource.classList.add('hidden');
+            tabPreview.className = 'tab-btn px-6 py-3 font-raleway font-semibold text-sm uppercase transition-colors border-b-2 border-btn-info text-btn-info';
+            tabSource.className = 'tab-btn px-6 py-3 font-raleway font-semibold text-sm uppercase transition-colors border-b-2 border-transparent text-gray-400 hover:text-text-default';
+        }
+
+        function showSourceTab() {
+            contentPreview.classList.add('hidden');
+            contentSource.classList.remove('hidden');
+            tabSource.className = 'tab-btn px-6 py-3 font-raleway font-semibold text-sm uppercase transition-colors border-b-2 border-btn-info text-btn-info';
+            tabPreview.className = 'tab-btn px-6 py-3 font-raleway font-semibold text-sm uppercase transition-colors border-b-2 border-transparent text-gray-400 hover:text-text-default';
+        }
+
+        // Tab event listeners
+        tabPreview?.addEventListener('click', showPreviewTab);
+        tabSource?.addEventListener('click', showSourceTab);
+
+        [closeModalBtn, closeModal2Btn].forEach(btn => btn && btn.addEventListener('click', hideModal));
         modal && modal.addEventListener('click', (e) => {
             if (e.target === modal) hideModal();
         });
@@ -230,16 +358,14 @@
 
                 const data = await res.json();
 
-                if (!res.ok) {
-                    setStatus(data?.message || 'Terjadi kesalahan saat memeriksa.', true);
-                    return;
-                }
-
-                if (data.success) {
-                    setStatus('Urutan benar!');
-                    setTimeout(() => openModal(data.html || ''), 500);
+                // Always show modal with preview (success or error)
+                if (data.html) {
+                    setStatus('');
+                    setTimeout(() => {
+                        openModal(data.html, data.success, data.message || 'Preview HTML');
+                    }, 300);
                 } else {
-                    setStatus(data.message || 'Urutan masih salah, coba periksa kembali.', true);
+                    setStatus(data?.message || 'Terjadi kesalahan saat memeriksa.', true);
                 }
             } catch (err) {
                 console.error(err);

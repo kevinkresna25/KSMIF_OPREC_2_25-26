@@ -26,6 +26,7 @@ class PuzzleValidationService
             return [
                 'success' => false,
                 'message' => 'Payload urutan tidak valid.',
+                'html' => '',
             ];
         }
 
@@ -41,16 +42,21 @@ class PuzzleValidationService
         // Validate
         $isValid = $this->compareOrders($normalizedOrder, $correctOrder);
 
+        // Always return combined HTML from user's order (regardless of correct or not)
+        $combinedHtml = $this->getCombinedHtmlFromOrder($order);
+
         if ($isValid) {
             return [
                 'success' => true,
-                'html' => $this->getCombinedHtml(),
+                'message' => 'Selamat! Urutan sudah sesuai.',
+                'html' => $combinedHtml,
             ];
         }
 
         return [
             'success' => false,
-            'message' => 'Urutan masih salah. Coba periksa kembali.',
+            'message' => 'Urutan belum sesuai. Silakan coba lagi.',
+            'html' => $combinedHtml,
         ];
     }
 
@@ -83,6 +89,15 @@ class PuzzleValidationService
     private function getCombinedHtml(): string
     {
         return Snippet::getCombinedHtml();
+    }
+
+    /**
+     * Get combined HTML from user's provided order (for preview).
+     */
+    private function getCombinedHtmlFromOrder(array $order): string
+    {
+        // Simply join all content from the provided order
+        return implode("\n", array_filter($order));
     }
 }
 

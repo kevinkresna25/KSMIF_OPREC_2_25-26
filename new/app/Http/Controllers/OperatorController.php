@@ -110,6 +110,7 @@ class OperatorController extends Controller
 
     /**
      * Validate order and return result as JSON.
+     * Always returns 200 with HTML preview (success or error).
      */
     public function checkOrder(CheckArrangementRequest $request)
     {
@@ -117,10 +118,7 @@ class OperatorController extends Controller
 
         $result = $this->puzzleValidationService->validateOrder($order);
 
-        if ($result['success']) {
-            return response()->json($result);
-        }
-
-        return response()->json($result, 422);
+        // Always return 200 OK with HTML for preview
+        return response()->json($result);
     }
 }
