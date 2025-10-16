@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         // Create operator user for KSMIF OPREC
         User::firstOrCreate(
-            ['email' => 'operator@ksmif.test'],
+            ['email' => 'operator@ksmif.org'],
             [
                 'name' => 'KSMIF Operator',
-                'email' => 'operator@ksmif.test',
+                'email' => 'operator@ksmif.org',
                 'password' => Hash::make('Password321'),
                 'is_operator' => true,
             ]
@@ -26,11 +26,11 @@ class DatabaseSeeder extends Seeder
 
         // Create regular test user
         User::firstOrCreate(
-            ['email' => 'test@example.com'],
+            ['email' => 'test@ksmif.org'],
             [
                 'name' => 'Test User',
-                'email' => 'test@example.com',
-                'password' => Hash::make('password'),
+                'email' => 'test@ksmif.org',
+                'password' => Hash::make('Password321'),
                 'is_operator' => false,
             ]
         );

@@ -50,7 +50,6 @@ bootstrap/cache/*
 
 # Public uploads (akan di-mount sebagai volume)
 public/storage
-public/images/*
 
 # Build artifacts
 public/build/
