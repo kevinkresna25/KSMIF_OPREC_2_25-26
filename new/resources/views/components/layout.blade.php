@@ -1,4 +1,4 @@
-@props(['title' => 'Game Puzzle Dekripsi'])
+@props(['title' => 'KSMIF - OPREC Game Besar'])
 
 <!DOCTYPE html>
 <html lang="id">

@@ -10,7 +10,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>{{ $title ?? config('app.name', 'Puzzle Game') }}</title>
+    <title>{{ $title ?? config('app.name', 'KSMIF OPREC') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -125,7 +125,7 @@
                     <div class="flex justify-between items-center h-16">
                         <div class="flex items-center">
                             <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
-                                <span class="font-pixel text-xs text-text-glow pixel-glow uppercase">PUZZLE</span>
+                                <span class="font-pixel text-xs text-text-glow pixel-glow uppercase">KSMIF</span>
                             </a>
                         </div>
                         
@@ -169,7 +169,7 @@
                     <div class="text-center text-gray-200 text-xs space-y-1">
                         <p class="font-pixel text-[10px] text-text-glow pixel-glow uppercase">RetroTerm</p>
                         <p class="font-lato">Theme designed by <span class="text-text-glow font-semibold">Development Team</span></p>
-                        <p class="font-lato opacity-75">© {{ date('Y') }} Puzzle Game. Powered by Laravel.</p>
+                        <p class="font-lato opacity-75">© {{ date('Y') }} KSMIF. Open Recruitment Game Besar.</p>
                     </div>
                 </div>
             </footer>
