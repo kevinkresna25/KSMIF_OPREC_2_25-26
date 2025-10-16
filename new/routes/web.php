@@ -55,8 +55,6 @@ Route::middleware('team')->group(function () {
     Route::controller(SubmissionController::class)->group(function () {
         Route::get('/input', 'create')->name('submission.create');
         Route::post('/input', 'store')->name('submission.store');
-        Route::get('/submission/{submission}/edit', 'edit')->name('submission.edit');
-        Route::put('/submission/{submission}', 'update')->name('submission.update');
         Route::delete('/submission/{submission}', 'destroy')->name('submission.destroy');
     });
 });

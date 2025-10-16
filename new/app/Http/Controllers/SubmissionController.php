@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubmissionRequest;
-use App\Http\Requests\UpdateTeamSubmissionRequest;
 use App\Models\TeamSubmission;
 use App\Services\SubmissionService;
 use Illuminate\Http\RedirectResponse;
@@ -58,63 +57,6 @@ class SubmissionController extends Controller
 
         return back()
             ->with('success', 'Potongan berhasil disimpan.');
-    }
-
-    /**
-     * Show the form for editing the specified submission.
-     */
-    public function edit(TeamSubmission $submission): View
-    {
-        $team = auth()->guard('team')->user();
-
-        // Only allow editing own submission that is not confirmed yet
-        if ($submission->team_id !== $team->id) {
-            abort(403, 'Anda tidak memiliki akses untuk mengedit submission ini.');
-        }
-
-        if ($submission->is_confirmed) {
-            abort(403, 'Submission yang sudah di-confirm tidak bisa diedit.');
-        }
-
-        return view('team.edit-submission', compact('submission'));
-    }
-
-    /**
-     * Update the specified submission in storage.
-     */
-    public function update(UpdateTeamSubmissionRequest $request, TeamSubmission $submission): RedirectResponse
-    {
-        $team = auth()->guard('team')->user();
-
-        // Authorization check
-        if ($submission->team_id !== $team->id) {
-            abort(403, 'Anda tidak memiliki akses untuk mengedit submission ini.');
-        }
-
-        if ($submission->is_confirmed) {
-            return back()->with('error', 'Submission yang sudah di-confirm tidak bisa diedit.');
-        }
-
-        $validated = $request->validated();
-
-        // Check for duplicate (excluding current submission)
-        $duplicate = $this->submissionService->isDuplicate($validated['content'], $submission->id);
-
-        if ($duplicate) {
-            return back()
-                ->withInput()
-                ->with('error', 'Potongan ini sudah pernah disimpan oleh tim: ' . ($duplicate->team->name ?? 'Unknown') . '.');
-        }
-
-        // Update submission
-        // Note: content_hash will be automatically updated by TeamSubmissionObserver
-        $submission->update([
-            'content' => $validated['content'],
-        ]);
-
-        return redirect()
-            ->route('team.submissions')
-            ->with('success', 'Submission berhasil diupdate.');
     }
 
     /**
