@@ -4,9 +4,15 @@
 <html lang="id" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <title>{{ $title }} — Puzzle Game</title>
+    <title>{{ $title }} — KSMIF OPREC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/logo-ksmif.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/logo-ksmif.png') }}">
+    <meta name="theme-color" content="#1a0f30">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -130,12 +136,28 @@
          id="sidebar">
         {{-- Logo Header (Toggle) --}}
         <div id="logoToggle" 
-             class="flex items-center justify-between h-16 px-4 bg-bg-navbar border-b border-white/10 flex-shrink-0"
+             class="flex items-center justify-between h-16 px-4 bg-bg-navbar border-b border-white/10 flex-shrink-0 cursor-pointer group"
              title="Click to toggle sidebar">
             <div class="flex items-center gap-3 overflow-hidden">
-                <div id="logoIcon" class="w-10 h-10 bg-text-accent-blue rounded-none flex items-center justify-center shadow-lg flex-shrink-0 border border-white/20">
+                <!-- Logo KSMIF with rotation animation -->
+                <div id="logoIcon" class="relative w-10 h-10 flex items-center justify-center flex-shrink-0 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-text-accent-blue/20 rounded-lg blur-sm group-hover:bg-text-accent-blue/30 transition-all"></div>
+                    <img 
+                        src="{{ asset('images/logo-ksmif.png') }}" 
+                        alt="Logo KSMIF" 
+                        class="relative w-8 h-8 object-contain drop-shadow-lg"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
+                    <!-- Fallback -->
+                    <div class="hidden w-10 h-10 bg-text-accent-blue rounded-lg items-center justify-center border-2 border-white/20">
+                        <span class="font-pixel text-[10px] text-white">OP</span>
+                    </div>
                 </div>
-                <span class="logo-text font-pixel text-xs text-text-accent-blue pixel-glow uppercase">OPERATOR</span>
+                
+                <div class="logo-text overflow-hidden">
+                    <p class="font-pixel text-xs text-text-accent-blue pixel-glow uppercase leading-tight">KSMIF</p>
+                    <p class="text-[10px] text-gray-400 font-lato">Operator Panel</p>
+                </div>
             </div>
         </div>
 

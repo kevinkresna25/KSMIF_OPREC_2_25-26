@@ -2,7 +2,7 @@
         <x-card>
             <div class="mb-6">
                 <h2 class="text-2xl font-pixel text-text-glow pixel-glow uppercase">Edit Snippet</h2>
-                <p class="text-text-default mt-2 font-lato">Perbarui potongan kode/HTML.</p>
+                <p class="text-text-default mt-2 font-lato">Perbarui fragmen kode/HTML untuk challenge OPREC.</p>
             </div>
 
             @if ($errors->any())

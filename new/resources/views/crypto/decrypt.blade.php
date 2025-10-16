@@ -1,5 +1,5 @@
 <x-layouts.retro :show-nav="false" :show-footer="false">
-    <x-slot name="title">Decrypt Tool - Puzzle Game</x-slot>
+    <x-slot name="title">Decrypt Tool - KSMIF OPREC</x-slot>
     
     <div class="min-h-screen py-12 px-4">
         <div class="max-w-4xl mx-auto">
