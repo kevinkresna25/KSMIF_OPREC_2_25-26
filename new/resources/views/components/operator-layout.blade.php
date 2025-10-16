@@ -134,7 +134,6 @@
              title="Click to toggle sidebar">
             <div class="flex items-center gap-3 overflow-hidden">
                 <div id="logoIcon" class="w-10 h-10 bg-text-accent-blue rounded-none flex items-center justify-center shadow-lg flex-shrink-0 border border-white/20">
-                    <span class="text-xl">🧩</span>
                 </div>
                 <span class="logo-text font-pixel text-xs text-text-accent-blue pixel-glow uppercase">OPERATOR</span>
             </div>

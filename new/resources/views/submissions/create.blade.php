@@ -5,7 +5,6 @@
             <div class="flex items-center justify-between mb-8">
                 <div>
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="text-4xl">📝</div>
                         <h1 class="text-2xl md:text-3xl font-pixel text-text-glow pixel-glow uppercase">
                             Input Potongan
                         </h1>
@@ -75,7 +74,7 @@
                         <textarea name="content" rows="8"
                             class="block w-full bg-transparent border-b-2 border-border-default text-text-default placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-input-focus rounded-none font-mono text-sm"
                             placeholder="Tempel potongan HTML hasil dekripsi di sini..." required>{{ old('content') }}</textarea>
-                        <p class="text-xs text-gray-400 mt-2 font-lato">💡 Decrypt fragment terlebih dahulu, lalu copy hasilnya ke sini. Potongan akan tersimpan untuk tim Anda.</p>
+                        <p class="text-xs text-gray-400 mt-2 font-lato">Decrypt fragment terlebih dahulu, lalu copy hasilnya ke sini. Potongan akan tersimpan untuk tim Anda.</p>
                     </div>
 
                     <div class="flex items-center gap-3">

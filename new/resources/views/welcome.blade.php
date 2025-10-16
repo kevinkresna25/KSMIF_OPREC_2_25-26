@@ -53,7 +53,6 @@
                 <!-- Card 1 -->
                 <x-card challenge>
                     <div class="text-center">
-                        <div class="text-5xl mb-4">📝</div>
                         <h3 class="font-pixel text-xs text-text-glow pixel-glow mb-4 uppercase">STEP 1: DECRYPT</h3>
                         <p class="font-lato text-gray-300 leading-relaxed text-sm mb-4">
                             Each team receives encrypted code fragments. Analyze and prepare your submission using AES decryption.
@@ -70,7 +69,6 @@
                 <!-- Card 2 -->
                 <x-card challenge>
                     <div class="text-center">
-                        <div class="text-5xl mb-4">🔍</div>
                         <h3 class="font-pixel text-xs text-text-glow pixel-glow mb-4 uppercase">STEP 2: VERIFY</h3>
                         <p class="font-lato text-gray-300 leading-relaxed text-sm">
                             Operators verify and select one submission per team for the final puzzle arrangement.
@@ -81,7 +79,6 @@
                 <!-- Card 3 -->
                 <x-card challenge>
                     <div class="text-center">
-                        <div class="text-5xl mb-4">🎯</div>
                         <h3 class="font-pixel text-xs text-text-glow pixel-glow mb-4 uppercase">STEP 3: SOLVE</h3>
                         <p class="font-lato text-gray-300 leading-relaxed text-sm">
                             Arrange all fragments in correct order to reveal the hidden message and complete the challenge.

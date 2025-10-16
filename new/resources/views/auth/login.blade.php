@@ -5,7 +5,6 @@
         <div class="max-w-md w-full space-y-8">
             <!-- Logo/Header -->
             <div class="text-center">
-                <div class="inline-block text-5xl mb-4 animate-pulse">🧩</div>
                 <h2 class="font-pixel text-2xl text-text-glow pixel-glow mb-4 uppercase">
                     LOGIN
                 </h2>
