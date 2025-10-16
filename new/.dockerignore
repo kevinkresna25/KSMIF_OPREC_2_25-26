@@ -7,7 +7,6 @@
 docker-compose.yml
 .dockerignore
 Dockerfile
-docker/
 
 # Documentation
 *.md
