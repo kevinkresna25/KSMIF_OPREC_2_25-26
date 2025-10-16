@@ -125,7 +125,6 @@
                     <div class="flex justify-between items-center h-16">
                         <div class="flex items-center">
                             <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
-                                <span class="text-2xl group-hover:scale-110 transition-transform">🧩</span>
                                 <span class="font-pixel text-xs text-text-glow pixel-glow uppercase">PUZZLE</span>
                             </a>
                         </div>

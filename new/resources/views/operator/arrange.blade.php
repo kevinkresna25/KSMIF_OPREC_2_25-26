@@ -110,7 +110,7 @@
                     <svg class="w-6 h-6 text-btn-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <h3 class="font-pixel text-btn-success uppercase text-sm">🎉 Selamat! Urutan Benar!</h3>
+                    <h3 class="font-pixel text-btn-success uppercase text-sm">Selamat! Urutan Benar!</h3>
                 </div>
                 <button id="closeModal" class="text-text-default hover:text-btn-danger text-2xl leading-none transition">
                     &times;
@@ -236,7 +236,7 @@
                 }
 
                 if (data.success) {
-                    setStatus('✅ Urutan benar! 🎉');
+                    setStatus('Urutan benar!');
                     setTimeout(() => openModal(data.html || ''), 500);
                 } else {
                     setStatus(data.message || 'Urutan masih salah, coba periksa kembali.', true);
