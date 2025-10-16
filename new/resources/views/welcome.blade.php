@@ -23,7 +23,7 @@
                         <img 
                             src="{{ asset('images/logo-ksmif.png') }}" 
                             alt="Logo KSMIF" 
-                            class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain drop-shadow-2xl"
+                            class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain drop-shadow-2xl"
                             onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%231a0f30%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-family=%22monospace%22 font-size=%2260%22 fill=%22%2300f6ff%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EKSMIF%3C/text%3E%3C/svg%3E';"
                         >
                     </div>
