@@ -44,9 +44,21 @@ Route::controller(CryptoController::class)->middleware(['auth', 'operator'])->pr
     Route::post('/', 'encrypt')->name('process');
 });
 
-Route::controller(SubmissionController::class)->middleware('team')->group(function () {
-    Route::get('/input', 'create')->name('submission.create');
-    Route::post('/input', 'store')->name('submission.store');
+// Team Routes
+Route::middleware('team')->group(function () {
+    // Dashboard & Profile
+    Route::get('/team/dashboard', [App\Http\Controllers\TeamDashboardController::class, 'dashboard'])->name('team.dashboard');
+    Route::get('/team/profile', [App\Http\Controllers\TeamDashboardController::class, 'profile'])->name('team.profile');
+    Route::get('/team/submissions', [App\Http\Controllers\TeamDashboardController::class, 'submissions'])->name('team.submissions');
+
+    // Submission Management
+    Route::controller(SubmissionController::class)->group(function () {
+        Route::get('/input', 'create')->name('submission.create');
+        Route::post('/input', 'store')->name('submission.store');
+        Route::get('/submission/{submission}/edit', 'edit')->name('submission.edit');
+        Route::put('/submission/{submission}', 'update')->name('submission.update');
+        Route::delete('/submission/{submission}', 'destroy')->name('submission.destroy');
+    });
 });
 
 /*

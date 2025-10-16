@@ -114,4 +114,20 @@
             </div>
         </div>
     </div>
+
+    {{-- Prevent browser back button after logout --}}
+    <script>
+        // Prevent back button navigation
+        history.pushState(null, null, location.href);
+        window.onpopstate = function() {
+            history.go(1);
+        };
+        
+        // Force reload if page loaded from browser cache
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
 </x-layouts.retro>

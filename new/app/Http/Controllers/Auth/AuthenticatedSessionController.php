@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
 
         // Redirect based on guard
         if ($guard === 'team') {
-            return redirect()->intended(route('submission.create', absolute: false));
+            return redirect()->intended(route('team.dashboard', absolute: false));
         }
 
         // Default: operator dashboard
@@ -42,12 +42,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // Logout from both guards
+        // Logout from both guards (web & team)
         Auth::guard('web')->logout();
         Auth::guard('team')->logout();
 
-        // Flush all session data
-        $request->session()->flush();
+        // Invalidate the session and regenerate CSRF token
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
